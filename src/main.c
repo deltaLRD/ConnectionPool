@@ -1,8 +1,8 @@
 #include "mysql/mysql.h"
+#include "mysql_config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mysql_config.h"
 
 const char *host = "49.234.15.205";
 const char *username = "root";
@@ -36,19 +36,16 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    if(mysql_real_query(&mysql, testSql, strlen(testSql))){
-        fprintf(stderr, "Failed to query: Error: %s\n",
-                mysql_error(&mysql));
+    if (mysql_real_query(&mysql, testSql, strlen(testSql))) {
+        fprintf(stderr, "Failed to query: Error: %s\n", mysql_error(&mysql));
         mysql_close(connection);
         exit(1);
     } else {
         result = mysql_store_result(&mysql);
-        
+
         if (result) {
-            
         }
     }
-
 
     mysql_free_result(result);
     mysql_close(connection);

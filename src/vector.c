@@ -17,9 +17,9 @@ void pushBack(Vector *vector, char *value) {
         vector->cap = (vector->cap == 0) ? 1 : vector->cap * 2;
         vector->data = realloc(vector->data, vector->cap);
     }
-    size_t start_offest = vector->len*vector->ele_size;
-    for(size_t i=0;i<vector->ele_size;i++){
-        vector->data[start_offest+i] = *(value+i);
+    size_t start_offest = vector->len * vector->ele_size;
+    for (size_t i = 0; i < vector->ele_size; i++) {
+        vector->data[start_offest + i] = *(value + i);
     }
     vector->len++;
     pthread_mutex_unlock(&vector->lock);
@@ -36,9 +36,9 @@ void freeVector(Vector *vector) {
     pthread_mutex_destroy(&vector->lock);
 }
 
-void* getVectorElement(Vector* vector, int pos) {
-    if (pos>vector->len) {
+void *getVectorElement(Vector *vector, int pos) {
+    if (pos > vector->len) {
         return NULL;
     }
-    return (void*)(vector->data+(pos)*vector->ele_size);
+    return (void *)(vector->data + (pos)*vector->ele_size);
 }

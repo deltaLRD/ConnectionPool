@@ -8,7 +8,7 @@
 // 获取csv行数
 int count_lines(const char *buffer, int buffer_size) {
     int newline_count = 0;
-    for(int i=0;i<buffer_size;i++){
+    for (int i = 0; i < buffer_size; i++) {
         if (buffer[i] == '\n') {
             newline_count++;
         }
@@ -16,7 +16,7 @@ int count_lines(const char *buffer, int buffer_size) {
     return newline_count;
 }
 
-char* read_csv(const char* filename) {
+char *read_csv(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) {
         perror("File open error\n");
@@ -33,44 +33,44 @@ char* read_csv(const char* filename) {
     return content_buffer;
 }
 
-CSVRow *parse_csv(const char *filename, int* row_nums) {
-    char* file_buffer = read_csv(filename);
+CSVRow *parse_csv(const char *filename, int *row_nums) {
+    char *file_buffer = read_csv(filename);
     int file_size = strlen(file_buffer);
 
     int lines_num = count_lines(file_buffer, file_size);
     *row_nums = lines_num;
 
     // 申请空间
-    char** lines = malloc(lines_num*sizeof(char*));
+    char **lines = malloc(lines_num * sizeof(char *));
     int tmp_cnt = 0;
     int pos = 0;
-    for(int i=0;i<file_size;i++) {
+    for (int i = 0; i < file_size; i++) {
         if (file_buffer[i] == '\n') {
-            lines[tmp_cnt] = malloc(i-pos+2);
-            memmove(lines[tmp_cnt++], file_buffer+pos, i-pos+1);
-            pos = i+1;
+            lines[tmp_cnt] = malloc(i - pos + 2);
+            memmove(lines[tmp_cnt++], file_buffer + pos, i - pos + 1);
+            pos = i + 1;
         }
     }
 
     // 将每一行数据的最后改成,方便处理
-    for (int i=0; i<lines_num; i++) {
+    for (int i = 0; i < lines_num; i++) {
         int tmp_len = strlen(lines[i]);
-        lines[i][tmp_len-1] = ',';
+        lines[i][tmp_len - 1] = ',';
     }
 
-    CSVRow *csv_data = (CSVRow*)malloc(lines_num*sizeof(CSVRow));
+    CSVRow *csv_data = (CSVRow *)malloc(lines_num * sizeof(CSVRow));
     int field_cnt = 0;
-    for(int i=0;i<strlen(lines[0]);i++){
+    for (int i = 0; i < strlen(lines[0]); i++) {
         if (lines[0][i] == ',') {
             field_cnt++;
         }
     }
 
-    for (int i=0; i<lines_num; i++) {
-        csv_data[i].fields = malloc(field_cnt * sizeof(char*));
+    for (int i = 0; i < lines_num; i++) {
+        csv_data[i].fields = malloc(field_cnt * sizeof(char *));
         int tmp_field_cnt = 0;
-        char* tmp_field = strtok(lines[i], ",");
-        while (tmp_field!=NULL) {
+        char *tmp_field = strtok(lines[i], ",");
+        while (tmp_field != NULL) {
             csv_data[i].fields[tmp_field_cnt++] = tmp_field;
             tmp_field = strtok(NULL, ",");
         }

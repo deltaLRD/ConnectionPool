@@ -2,11 +2,11 @@
 #define MYSQL_CONFIG_H
 
 typedef struct {
-    char* host;
-    char* username;
-    char* password;
-    char* database;
-    char* port;
+    char *host;
+    char *username;
+    char *password;
+    char *database;
+    char *port;
 } MySQLConfig;
 
 #endif
