@@ -10,6 +10,10 @@ set(ConnectionPool_SRC
     src/vector.c
 )
 
+IF (CMAKE_BUILD_TYPE STREQUAL Debug) 
+    ADD_DEFINITIONS(-DDEBUG)
+ENDIF()
+
 add_library(ConnectionPool_Static ${ConnectionPool_SRC})
 target_include_directories(ConnectionPool_Static PUBLIC include)
 target_link_libraries(ConnectionPool_Static PRIVATE unofficial::libmysql::libmysql)
@@ -18,6 +22,7 @@ target_link_libraries(ConnectionPool_Static PRIVATE unofficial::libmysql::libmys
 #     target_compile_options(ConnectionPool_Static PRIVATE -Wno-pointer-to-int-cast)
 # endif()
 add_executable(ConnectionPool src/main.c)
+target_compile_definitions(ConnectionPool PUBLIC _XOPEN_SOURCE)
 target_include_directories(ConnectionPool PUBLIC include)
 target_link_libraries(ConnectionPool PRIVATE ConnectionPool_Static)
 

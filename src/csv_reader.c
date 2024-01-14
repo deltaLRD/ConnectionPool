@@ -47,6 +47,7 @@ CSVRow *parse_csv(const char *filename, int *row_nums) {
     for (int i = 0; i < file_size; i++) {
         if (file_buffer[i] == '\n') {
             lines[tmp_cnt] = malloc(i - pos + 2);
+            lines[tmp_cnt][i-pos+1] = '\0';
             memmove(lines[tmp_cnt++], file_buffer + pos, i - pos + 1);
             pos = i + 1;
         }
