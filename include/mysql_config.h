@@ -6,7 +6,7 @@ typedef struct {
     char *username;
     char *password;
     char *database;
-    char *port;
+    int   port;
 } MySQLConfig;
 
 #endif
